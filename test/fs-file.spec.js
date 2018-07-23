@@ -11,7 +11,6 @@ const test = require('japa')
 const { join } = require('path')
 const fs = require('fs-extra')
 const dedent = require('dedent')
-const { EOL } = require('os')
 
 const File = require('../src/File')
 const sampleFile = join(__dirname, 'foo.md')
@@ -62,7 +61,7 @@ test.group('File', (group) => {
     Hello world
     `)
 
-    assert.deepEqual(content.split(EOL), ['', '', '', 'Hello world'])
+    assert.deepEqual(content.split('\n'), ['', '', '', 'Hello world'])
   })
 
   test('patch content with spaces when has yaml frontmatter', async (assert) => {
@@ -74,14 +73,14 @@ test.group('File', (group) => {
     Hello world
     `)
 
-    assert.deepEqual(content.split(EOL), ['', '', '', '', 'Hello world'])
+    assert.deepEqual(content.split('\n'), ['', '', '', '', 'Hello world'])
   })
 
   test('do not patch content with spaces when there is no yaml frontmatter', async (assert) => {
     const file = new File(sampleFile)
     const { content } = file._readYamlFrontMatter(dedent`Hello world`)
 
-    assert.deepEqual(content.split(EOL), ['Hello world'])
+    assert.deepEqual(content.split('\n'), ['Hello world'])
   })
 
   test('set processed content when everything is good', async (assert) => {

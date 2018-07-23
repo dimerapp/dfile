@@ -9,7 +9,6 @@
 
 const fs = require('fs-extra')
 const Markdown = require('@dimerapp/markdown')
-const { EOL } = require('os')
 const matter = require('gray-matter')
 const slugify = require('slugify')
 const vFile = require('vfile')
@@ -142,12 +141,10 @@ class File {
     }
 
     if (!raw && isEmpty) {
-      return `${new Array(3).join(EOL)}${content}`
+      return `${new Array(3).join('\n')}${content}`
     }
 
-    console.log(raw.split(EOL))
-
-    return `${new Array(raw.split(EOL).length + 2).join(EOL)}${content}`
+    return `${new Array(raw.split(/\r?\n/).length + 2).join('\n')}${content}`
   }
 
   /**
