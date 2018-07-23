@@ -159,4 +159,38 @@ test.group('File', (group) => {
       }
     })
   })
+
+  test('return JSON representation of file', async (assert) => {
+    await fs.writeFile(sampleFile, dedent`---
+    permalink: /hello
+    ---
+
+    [note]
+    Hello
+    `)
+
+    const file = new File(sampleFile)
+    await file.parse()
+
+    const json = file.toJSON()
+    assert.hasAllKeys(json, ['contents', 'fatalMessages', 'warningMessages', 'metaData', 'filePath'])
+  })
+
+  test('return base name for the file when base path exists', async (assert) => {
+    const basePath = join(__dirname, 'docs')
+    const filePath = join(basePath, 'foo/bar.md')
+
+    await fs.outputFile(filePath, dedent`---
+    permalink: /hello
+    ---
+
+    [note]
+    Hello
+    `)
+
+    const file = new File(filePath, basePath)
+    assert.equal(file.baseName, 'foo/bar.md')
+
+    await fs.remove(basePath)
+  })
 })
