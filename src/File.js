@@ -38,7 +38,7 @@ class File {
    * @return {String}
    */
   get baseName () {
-    return this.basePath ? this.filePath.replace(`${this.basePath}${sep}`, '') : null
+    return this.basePath ? this.filePath.replace(`${this.basePath}${sep}`, '').replace(sep, '/') : null
   }
 
   /**
