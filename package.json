@@ -1,9 +1,13 @@
 {
   "name": "@dimerapp/dfile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dimer file to convert it to markdown and check for linting errors",
-  "main": "index.js",
+  "main": "src/File.js",
+  "files": [
+    "src/File.js"
+  ],
   "scripts": {
+    "prepublishOnly": "pkg-ok",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "japa",
