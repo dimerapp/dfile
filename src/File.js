@@ -145,6 +145,8 @@ class File {
       return `${new Array(3).join(EOL)}${content}`
     }
 
+    console.log(raw.split(EOL))
+
     return `${new Array(raw.split(EOL).length + 2).join(EOL)}${content}`
   }
 
