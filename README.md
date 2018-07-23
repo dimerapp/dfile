@@ -48,6 +48,18 @@ if (file.messages()) {
 file.contents
 ```
 
+## Computing base name
+You can instruct dFile to compute the base name of the file from a given directory by providing the base path
+
+```js
+const Dfile = require('@dimerapp/dfile')
+const docsDir = join(__dirname, 'docs')
+const filePath = join(docsDir, 'getting-started/intro.md')
+
+const file = new Dfile(filePath, docsDir)
+console.log(file.baseName) // getting-started/intro.md
+```
+
 ## API
 The following properties/methods are available on the file instance.
 
@@ -73,6 +85,20 @@ File error messages. The messages `fatal` property are hard errors.
 file.messages
 ```
 
+#### fatalMessages
+Returns an array of fatal messages.
+
+```js
+file.fatalMessages
+```
+
+#### warningMessages
+Returns an array of warnings.
+
+```js
+file.warningMessages
+```
+
 #### filePath
 File absolute path
 
@@ -85,6 +111,13 @@ File yaml front matter meta data
 
 ```js
 file.metaData
+```
+
+#### toJSON
+Returns the JSON representation of the file
+
+```js
+file.toJSON()
 ```
 
 ## Change log
