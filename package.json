@@ -1,6 +1,6 @@
 {
   "name": "@dimerapp/dfile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Dimer file to convert it to markdown and check for linting errors",
   "main": "src/File.js",
   "files": [
@@ -12,6 +12,7 @@
     "pretest": "npm run lint",
     "test": "japa",
     "commit": "git-cz",
+    "test:win": "node ./node_modules/japa-cli/index.js",
     "lint": "standard"
   },
   "keywords": [
@@ -27,7 +28,6 @@
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
     "mrm": "^1.2.1",
-    "nyc": "^12.0.2",
     "pkg-ok": "^2.2.0",
     "standard": "^11.0.1"
   },
@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@dimerapp/markdown": "^1.0.2",
+    "@dimerapp/markdown": "^1.0.3",
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
     "slugify": "^1.3.0",

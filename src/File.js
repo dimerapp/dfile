@@ -9,7 +9,6 @@
 
 const fs = require('fs-extra')
 const Markdown = require('@dimerapp/markdown')
-const { EOL } = require('os')
 const matter = require('gray-matter')
 const slugify = require('slugify')
 const vFile = require('vfile')
@@ -21,17 +20,31 @@ const { extname, sep, basename } = require('path')
  * @class File
  *
  * @param {String} filePath
+ * @param {String} basePath
  */
 class File {
-  constructor (filePath) {
+  constructor (filePath, basePath) {
     this.metaData = null
+    this.basePath = basePath
     this.vfile = vFile({ path: filePath, contents: '' })
+  }
+
+  /**
+   * Returns the base name for the file, only when `basepath`
+   * exists
+   *
+   * @method baseName
+   *
+   * @return {String}
+   */
+  get baseName () {
+    return this.basePath ? this.filePath.replace(`${this.basePath}${sep}`, '').replace(sep, '/') : null
   }
 
   /**
    * An array of error messages
    *
-   * @method messages
+   * @attribute messages
    *
    * @return {Array}
    */
@@ -42,7 +55,7 @@ class File {
   /**
    * The file path
    *
-   * @method filePath
+   * @attribute filePath
    *
    * @return {String}
    */
@@ -53,12 +66,34 @@ class File {
   /**
    * File contents
    *
-   * @method contents
+   * @attribute contents
    *
    * @return {Object}
    */
   get contents () {
     return this.vfile.contents
+  }
+
+  /**
+   * Returns an array of fatal messages
+   *
+   * @attribute fatalMessages
+   *
+   * @return {Array}
+   */
+  get fatalMessages () {
+    return this.messages.filter((message) => message.fatal)
+  }
+
+  /**
+   * Returns an array of warnings
+   *
+   * @attribute warningMessages
+   *
+   * @return {Array}
+   */
+  get warningMessages () {
+    return this.messages.filter((message) => !message.fatal)
   }
 
   /**
@@ -106,10 +141,10 @@ class File {
     }
 
     if (!raw && isEmpty) {
-      return `${new Array(3).join(EOL)}${content}`
+      return `${new Array(3).join('\n')}${content}`
     }
 
-    return `${new Array(raw.split(EOL).length + 2).join(EOL)}${content}`
+    return `${new Array(raw.split(/\r?\n/).length + 2).join('\n')}${content}`
   }
 
   /**
@@ -163,6 +198,24 @@ class File {
       title: this.metaData.title,
       skipToc: this.metaData.toc === false
     })).toJSON()
+  }
+
+  /**
+   * Returns the JSON representation of file
+   *
+   * @method toJSON
+   *
+   * @return {Object}
+   */
+  toJSON () {
+    return {
+      contents: this.contents,
+      filePath: this.filePath,
+      metaData: this.metaData,
+      fatalMessages: this.fatalMessages,
+      baseName: this.baseName,
+      warningMessages: this.warningMessages
+    }
   }
 }
 

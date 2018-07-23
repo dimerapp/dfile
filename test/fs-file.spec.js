@@ -11,7 +11,6 @@ const test = require('japa')
 const { join } = require('path')
 const fs = require('fs-extra')
 const dedent = require('dedent')
-const { EOL } = require('os')
 
 const File = require('../src/File')
 const sampleFile = join(__dirname, 'foo.md')
@@ -62,7 +61,7 @@ test.group('File', (group) => {
     Hello world
     `)
 
-    assert.deepEqual(content.split(EOL), ['', '', '', 'Hello world'])
+    assert.deepEqual(content.split('\n'), ['', '', '', 'Hello world'])
   })
 
   test('patch content with spaces when has yaml frontmatter', async (assert) => {
@@ -74,14 +73,14 @@ test.group('File', (group) => {
     Hello world
     `)
 
-    assert.deepEqual(content.split(EOL), ['', '', '', '', 'Hello world'])
+    assert.deepEqual(content.split('\n'), ['', '', '', '', 'Hello world'])
   })
 
   test('do not patch content with spaces when there is no yaml frontmatter', async (assert) => {
     const file = new File(sampleFile)
     const { content } = file._readYamlFrontMatter(dedent`Hello world`)
 
-    assert.deepEqual(content.split(EOL), ['Hello world'])
+    assert.deepEqual(content.split('\n'), ['Hello world'])
   })
 
   test('set processed content when everything is good', async (assert) => {
@@ -158,5 +157,39 @@ test.group('File', (group) => {
         column: null
       }
     })
+  })
+
+  test('return JSON representation of file', async (assert) => {
+    await fs.writeFile(sampleFile, dedent`---
+    permalink: /hello
+    ---
+
+    [note]
+    Hello
+    `)
+
+    const file = new File(sampleFile)
+    await file.parse()
+
+    const json = file.toJSON()
+    assert.hasAllKeys(json, ['contents', 'fatalMessages', 'warningMessages', 'metaData', 'filePath', 'baseName'])
+  })
+
+  test('return base name for the file when base path exists', async (assert) => {
+    const basePath = join(__dirname, 'docs')
+    const filePath = join(basePath, 'foo/bar.md')
+
+    await fs.outputFile(filePath, dedent`---
+    permalink: /hello
+    ---
+
+    [note]
+    Hello
+    `)
+
+    const file = new File(filePath, basePath)
+    assert.equal(file.baseName, 'foo/bar.md')
+
+    await fs.remove(basePath)
   })
 })
