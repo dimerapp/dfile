@@ -173,7 +173,7 @@ test.group('File', (group) => {
     await file.parse()
 
     const json = file.toJSON()
-    assert.hasAllKeys(json, ['contents', 'fatalMessages', 'warningMessages', 'metaData', 'filePath'])
+    assert.hasAllKeys(json, ['contents', 'fatalMessages', 'warningMessages', 'metaData', 'filePath', 'baseName'])
   })
 
   test('return base name for the file when base path exists', async (assert) => {
