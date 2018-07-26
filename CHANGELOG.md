@@ -1,3 +1,13 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/dimerapp/dfile/compare/v1.0.3...v1.0.4) (2018-07-26)
+
+
+### Features
+
+* ensure title exists or add fatal message ([e2a672c](https://github.com/dimerapp/dfile/commit/e2a672c))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/dimerapp/dfile/compare/v1.0.2...v1.0.3) (2018-07-26)
 
