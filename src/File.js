@@ -10,9 +10,9 @@
 const fs = require('fs-extra')
 const Markdown = require('@dimerapp/markdown')
 const matter = require('gray-matter')
-const slugify = require('slugify')
+const utils = require('@dimerapp/utils')
 const vFile = require('vfile')
-const { extname, sep, basename } = require('path')
+const { sep, basename } = require('path')
 
 /**
  * A single file to be processed.
@@ -115,9 +115,7 @@ class File {
     }
 
     const baseName = basename(this.filePath)
-    return slugify(baseName.replace(sep, '-').replace(new RegExp(`${extname(baseName)}$`), ''), {
-      lower: true
-    })
+    return utils.permalink.generateFromFileName(baseName)
   }
 
   /**
@@ -168,6 +166,14 @@ class File {
 
     const { data, content, matter: raw, isEmpty } = matter(fileContents, { excerpt: false })
     data.permalink = this._getPermalink(data.permalink)
+
+    try {
+      utils.permalink.validate(data.permalink)
+    } catch (error) {
+      const message = this.vfile.message(error.message)
+      message.fatal = true
+      return
+    }
 
     return {
       metaData: data,

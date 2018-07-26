@@ -192,4 +192,24 @@ test.group('File', (group) => {
 
     await fs.remove(basePath)
   })
+
+  test('set error when permalink is invalid', async (assert) => {
+    const basePath = join(__dirname, 'docs')
+    const filePath = join(basePath, 'foo/bar.md')
+
+    await fs.outputFile(filePath, dedent`---
+    permalink: foo bar
+    ---
+
+    [note]
+    Hello
+    `)
+
+    const file = new File(filePath, basePath)
+    await file.parse()
+
+    assert.deepEqual(file.fatalMessages[0].message, 'Only words and numbers along with (_.-~) are allowed in permalink')
+
+    await fs.remove(basePath)
+  })
 })
