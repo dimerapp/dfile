@@ -119,6 +119,20 @@ class File {
   }
 
   /**
+   * Adds a new fatal message
+   *
+   * @method _addFatalMessage
+   *
+   * @param  {String}         text
+   *
+   * @private
+   */
+  _addFatalMessage (text) {
+    const message = this.vfile.message(text)
+    message.fatal = true
+  }
+
+  /**
    * We need to subsitute the yaml front matter area with
    * empty spaces, so that the Markdown parses generates
    * errors and warnings on correct line numbers
@@ -159,8 +173,7 @@ class File {
    */
   _readYamlFrontMatter (fileContents) {
     if (!fileContents.trim()) {
-      const message = this.vfile.message('Cannot publish empty file')
-      message.fatal = true
+      this._addFatalMessage('Cannot publish empty file')
       return
     }
 
@@ -170,8 +183,7 @@ class File {
     try {
       utils.permalink.validate(data.permalink)
     } catch (error) {
-      const message = this.vfile.message(error.message)
-      message.fatal = true
+      this._addFatalMessage(error.message)
       return
     }
 
@@ -179,6 +191,22 @@ class File {
       metaData: data,
       content: this._patchContentLines(content, raw, isEmpty)
     }
+  }
+
+  /**
+   * Returns the title node from the content nodes
+   *
+   * @method _getTitle
+   *
+   * @param  {Array}  options.children
+   *
+   * @return {String}
+   *
+   * @private
+   */
+  _getTitle ({ children }) {
+    const node = children.find((child) => child.tag === 'dimertitle')
+    return node ? node.children[0].value : ''
   }
 
   /**
@@ -204,6 +232,19 @@ class File {
       title: this.metaData.title,
       skipToc: this.metaData.toc === false
     })).toJSON()
+
+    /**
+     * Set title by reading the node from JSON if title in
+     * metaData is missing
+     */
+    this.metaData.title = this.metaData.title || this._getTitle(this.vfile.contents)
+
+    /**
+     * Add fatal error if title is missing
+     */
+    if (!this.metaData.title) {
+      this._addFatalMessage('Make sure to define top level h1 heading or title in yaml frontmatter')
+    }
   }
 
   /**
