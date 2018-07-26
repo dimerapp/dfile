@@ -37,7 +37,7 @@ test.group('File', (group) => {
     const file = new File(sampleFile)
     await file.parse()
 
-    assert.deepEqual(file.metaData, { permalink: 'foo' })
+    assert.deepEqual(file.metaData, { permalink: 'foo', title: '' })
   })
 
   test('generate permalink from file path when yaml matter is empty', async (assert) => {
@@ -50,7 +50,7 @@ test.group('File', (group) => {
     const file = new File(sampleFile)
     await file.parse()
 
-    assert.deepEqual(file.metaData, { permalink: 'foo' })
+    assert.deepEqual(file.metaData, { permalink: 'foo', title: '' })
   })
 
   test('patch content with spaces when has empty yaml frontmatter', async (assert) => {
@@ -209,6 +209,24 @@ test.group('File', (group) => {
     await file.parse()
 
     assert.deepEqual(file.fatalMessages[0].message, 'Only words and numbers along with (_.-~) are allowed in permalink')
+
+    await fs.remove(basePath)
+  })
+
+  test('set error when title is missing', async (assert) => {
+    const basePath = join(__dirname, 'docs')
+    const filePath = join(basePath, 'foo/bar.md')
+
+    await fs.outputFile(filePath, dedent`---
+    ---
+
+    Hello
+    `)
+
+    const file = new File(filePath, basePath)
+    await file.parse()
+
+    assert.deepEqual(file.fatalMessages[0].message, 'Make sure to define top level h1 heading or title in yaml frontmatter')
 
     await fs.remove(basePath)
   })
