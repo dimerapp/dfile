@@ -25,7 +25,8 @@ test.group('File', (group) => {
     const file = new File(sampleFile)
 
     await file.parse()
-    assert.equal(file.messages[0].message, 'Cannot publish empty file')
+    assert.equal(file.messages[0].message, 'Empty file')
+    assert.equal(file.messages[0].ruleId, 'empty-file')
     assert.isTrue(file.messages[0].fatal)
   })
 
@@ -226,7 +227,7 @@ test.group('File', (group) => {
     const file = new File(filePath, basePath)
     await file.parse()
 
-    assert.deepEqual(file.fatalMessages[0].message, 'Make sure to define top level h1 heading or title in yaml frontmatter')
+    assert.deepEqual(file.fatalMessages[0].message, 'Missing title', 'missing-title')
 
     await fs.remove(basePath)
   })

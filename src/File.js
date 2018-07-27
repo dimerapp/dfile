@@ -124,11 +124,13 @@ class File {
    * @method _addFatalMessage
    *
    * @param  {String}         text
+   * @param  {String}         ruleId
    *
    * @private
    */
-  _addFatalMessage (text) {
+  _addFatalMessage (text, ruleId) {
     const message = this.vfile.message(text)
+    message.ruleId = ruleId
     message.fatal = true
   }
 
@@ -173,7 +175,7 @@ class File {
    */
   _readYamlFrontMatter (fileContents) {
     if (!fileContents.trim()) {
-      this._addFatalMessage('Cannot publish empty file')
+      this._addFatalMessage('Empty file', 'empty-file')
       return
     }
 
@@ -183,7 +185,7 @@ class File {
     try {
       utils.permalink.validate(data.permalink)
     } catch (error) {
-      this._addFatalMessage(error.message)
+      this._addFatalMessage(error.message, 'bad-permalink')
       return
     }
 
@@ -243,7 +245,7 @@ class File {
      * Add fatal error if title is missing
      */
     if (!this.metaData.title) {
-      this._addFatalMessage('Make sure to define top level h1 heading or title in yaml frontmatter')
+      this._addFatalMessage('Missing title', 'missing-title')
     }
   }
 
