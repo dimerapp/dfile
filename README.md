@@ -63,12 +63,26 @@ console.log(file.baseName) // getting-started/intro.md
 ## API
 The following properties/methods are available on the file instance.
 
-#### parse
+#### parse()
 Parse the file by reading it from the disk.
 
 ```md
 const file = new Dfile(join(__dirname, 'readme.md'))
 await file.parse()
+```
+
+#### fatalMessage(message, ruleId)
+Add a new fatal message with rule id
+
+```md
+file.fatalMessage('Missing title', 'missing-title')
+```
+
+#### warningMessage(message, ruleId)
+Add a new warning with rule id
+
+```md
+file.warningMessage('Missing title', 'missing-title')
 ```
 
 #### contents
@@ -113,7 +127,7 @@ File yaml front matter meta data
 file.metaData
 ```
 
-#### toJSON
+#### toJSON()
 Returns the JSON representation of the file
 
 ```js
