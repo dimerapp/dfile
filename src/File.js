@@ -119,22 +119,6 @@ class File {
   }
 
   /**
-   * Adds a new fatal message
-   *
-   * @method _addFatalMessage
-   *
-   * @param  {String}         text
-   * @param  {String}         ruleId
-   *
-   * @private
-   */
-  _addFatalMessage (text, ruleId) {
-    const message = this.vfile.message(text)
-    message.ruleId = ruleId
-    message.fatal = true
-  }
-
-  /**
    * We need to subsitute the yaml front matter area with
    * empty spaces, so that the Markdown parses generates
    * errors and warnings on correct line numbers
@@ -175,7 +159,7 @@ class File {
    */
   _readYamlFrontMatter (fileContents) {
     if (!fileContents.trim()) {
-      this._addFatalMessage('Empty file', 'empty-file')
+      this.fatalMessage('Empty file', 'empty-file')
       return
     }
 
@@ -185,7 +169,7 @@ class File {
     try {
       utils.permalink.validate(data.permalink)
     } catch (error) {
-      this._addFatalMessage(error.message, 'bad-permalink')
+      this.fatalMessage(error.message, 'bad-permalink')
       return
     }
 
@@ -209,6 +193,36 @@ class File {
   _getTitle ({ children }) {
     const node = children.find((child) => child.tag === 'dimertitle')
     return node ? node.children[0].value : ''
+  }
+
+  /**
+   * Adds a new fatal message
+   *
+   * @method fatalMessage
+   *
+   * @param  {String}         text
+   * @param  {String}         ruleId
+   */
+  fatalMessage (text, ruleId) {
+    const message = this.vfile.message(text)
+    message.ruleId = ruleId
+    message.fatal = true
+  }
+
+  /**
+   * Adds a warning message to the list of file
+   * messages
+   *
+   * @method warningMessage
+   *
+   * @param  {String}       text
+   * @param  {String}       ruleId
+   *
+   * @return {void}
+   */
+  warningMessage (text, ruleId) {
+    const message = this.vfile.message(text)
+    message.ruleId = ruleId
   }
 
   /**
@@ -245,7 +259,7 @@ class File {
      * Add fatal error if title is missing
      */
     if (!this.metaData.title) {
-      this._addFatalMessage('Missing title', 'missing-title')
+      this.fatalMessage('Missing title', 'missing-title')
     }
   }
 
