@@ -1,6 +1,6 @@
 {
   "name": "@dimerapp/dfile",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Dimer file to convert it to markdown and check for linting errors",
   "main": "src/File.js",
   "files": [
@@ -48,5 +48,16 @@
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
     "vfile": "^3.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimerapp/dfile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dimerapp/dfile/issues"
+  },
+  "homepage": "https://github.com/dimerapp/dfile#readme"
 }
