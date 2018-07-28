@@ -1,6 +1,6 @@
 {
   "name": "@dimerapp/dfile",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Dimer file to convert it to markdown and check for linting errors",
   "main": "src/File.js",
   "files": [
@@ -21,7 +21,7 @@
   "author": "virk",
   "license": "MIT",
   "devDependencies": {
-    "@adonisjs/mrm-preset": "^1.0.9",
+    "@adonisjs/mrm-preset": "^1.0.10",
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "dedent": "^0.7.0",
@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@dimerapp/markdown": "^1.0.3",
+    "@dimerapp/markdown": "^1.0.4",
     "@dimerapp/utils": "^1.0.0",
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
