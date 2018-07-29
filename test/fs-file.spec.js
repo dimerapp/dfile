@@ -209,7 +209,8 @@ test.group('File', (group) => {
     const file = new File(filePath, basePath)
     await file.parse()
 
-    assert.deepEqual(file.fatalMessages[0].message, 'Only words and numbers along with (_.-~) are allowed in permalink')
+    assert.deepEqual(file.fatalMessages[0].message, 'Unallowed characters detected in permalink')
+    assert.deepEqual(file.fatalMessages[0].ruleId, 'bad-permalink')
 
     await fs.remove(basePath)
   })

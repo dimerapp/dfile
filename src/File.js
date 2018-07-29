@@ -169,7 +169,7 @@ class File {
     try {
       utils.permalink.validate(data.permalink)
     } catch (error) {
-      this.fatalMessage(error.message, 'bad-permalink')
+      this.fatalMessage(error.message, error.ruleId)
       return
     }
 
