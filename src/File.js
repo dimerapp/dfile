@@ -23,9 +23,10 @@ const { sep, basename } = require('path')
  * @param {String} basePath
  */
 class File {
-  constructor (filePath, basePath) {
+  constructor (filePath, basePath, markdownOptions) {
     this.metaData = null
     this.basePath = basePath
+    this.markdownOptions = markdownOptions
     this.vfile = vFile({ path: filePath, contents: '' })
   }
 
@@ -244,10 +245,10 @@ class File {
     this.metaData = parsed.metaData
     this.vfile.contents = parsed.content
 
-    await (new Markdown(this.vfile, {
+    await (new Markdown(this.vfile, Object.assign({
       title: this.metaData.title,
       skipToc: this.metaData.toc === false
-    })).toJSON()
+    }, this.markdownOptions))).toJSON()
 
     /**
      * Set title by reading the node from JSON if title in

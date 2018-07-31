@@ -1,3 +1,13 @@
+<a name="1.0.8"></a>
+## [1.0.8](https://github.com/dimerapp/dfile/compare/v1.0.7...v1.0.8) (2018-07-31)
+
+
+### Features
+
+* accept markdown options to pass to [@dimerapp](https://github.com/dimerapp)/markdown ([abb2c87](https://github.com/dimerapp/dfile/commit/abb2c87))
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/dimerapp/dfile/compare/v1.0.6...v1.0.7) (2018-07-29)
 
