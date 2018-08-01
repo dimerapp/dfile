@@ -247,7 +247,8 @@ class File {
 
     await (new Markdown(this.vfile, Object.assign({
       title: this.metaData.title,
-      skipToc: this.metaData.toc === false
+      skipToc: this.metaData.toc === false,
+      path: this.vfile.path
     }, this.markdownOptions))).toJSON()
 
     /**

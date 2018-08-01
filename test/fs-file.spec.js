@@ -14,10 +14,12 @@ const dedent = require('dedent')
 
 const File = require('../src/File')
 const sampleFile = join(__dirname, 'foo.md')
+const basePath = join(__dirname, 'docs')
 
 test.group('File', (group) => {
   group.afterEach(async () => {
     await fs.remove(sampleFile)
+    await fs.remove(basePath)
   })
 
   test('return error when file is empty', async (assert) => {
@@ -177,7 +179,6 @@ test.group('File', (group) => {
   })
 
   test('return base name for the file when base path exists', async (assert) => {
-    const basePath = join(__dirname, 'docs')
     const filePath = join(basePath, 'foo/bar.md')
 
     await fs.outputFile(filePath, dedent`---
@@ -190,12 +191,9 @@ test.group('File', (group) => {
 
     const file = new File(filePath, basePath)
     assert.equal(file.baseName, 'foo/bar.md')
-
-    await fs.remove(basePath)
   })
 
   test('set error when permalink is invalid', async (assert) => {
-    const basePath = join(__dirname, 'docs')
     const filePath = join(basePath, 'foo/bar.md')
 
     await fs.outputFile(filePath, dedent`---
@@ -211,12 +209,9 @@ test.group('File', (group) => {
 
     assert.deepEqual(file.fatalMessages[0].message, 'Unallowed characters detected in permalink')
     assert.deepEqual(file.fatalMessages[0].ruleId, 'bad-permalink')
-
-    await fs.remove(basePath)
   })
 
   test('set error when title is missing', async (assert) => {
-    const basePath = join(__dirname, 'docs')
     const filePath = join(basePath, 'foo/bar.md')
 
     await fs.outputFile(filePath, dedent`---
@@ -229,7 +224,23 @@ test.group('File', (group) => {
     await file.parse()
 
     assert.deepEqual(file.fatalMessages[0].message, 'Missing title', 'missing-title')
+  })
 
-    await fs.remove(basePath)
+  test('pass path to markdown instance', async (assert) => {
+    assert.plan(1)
+
+    const filePath = join(basePath, 'foo/bar.md')
+
+    await fs.outputFile(filePath, dedent`
+    ![](../foo.jpg)
+    `)
+
+    const file = new File(filePath, basePath, {
+      async onUrl (url, options) {
+        assert.equal(options.path, filePath)
+      }
+    })
+
+    await file.parse()
   })
 })
