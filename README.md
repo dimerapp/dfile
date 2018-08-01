@@ -40,7 +40,7 @@ const Dfile = require('@dimerapp/dfile')
 const file = new Dfile(join(__dirname, 'readme.md'))
 await file.parse()
 
-if (file.messages()) {
+if (file.messages) {
   // has errors
 }
 
@@ -62,6 +62,16 @@ console.log(file.baseName) // getting-started/intro.md
 
 ## API
 The following properties/methods are available on the file instance.
+
+#### constructor(filePath, [basePath], [markdownOptions])
+```js
+new Dfile(filePath, basePath, {
+  async onUrl () {
+  },
+  title: 'Custom title',
+  skipToc: false
+})
+```
 
 #### parse()
 Parse the file by reading it from the disk.
