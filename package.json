@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@dimerapp/markdown": "^2.0.1",
+    "@dimerapp/markdown": "^3.0.0",
     "@dimerapp/utils": "^1.0.3",
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
