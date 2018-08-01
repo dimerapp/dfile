@@ -1,3 +1,13 @@
+<a name="1.0.11"></a>
+## [1.0.11](https://github.com/dimerapp/dfile/compare/v1.0.10...v1.0.11) (2018-08-01)
+
+
+### Reverts
+
+* revert 011a681092db6a7b0c0d3f8d20821479ff362d79 ([b4e5c23](https://github.com/dimerapp/dfile/commit/b4e5c23))
+
+
+
 <a name="1.0.10"></a>
 ## [1.0.10](https://github.com/dimerapp/dfile/compare/v1.0.9...v1.0.10) (2018-08-01)
 
