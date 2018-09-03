@@ -1,3 +1,8 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/dimerapp/dfile/compare/v1.0.11...v1.1.0) (2018-09-03)
+
+
+
 <a name="1.0.11"></a>
 ## [1.0.11](https://github.com/dimerapp/dfile/compare/v1.0.10...v1.0.11) (2018-08-01)
 
