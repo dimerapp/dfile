@@ -1,6 +1,6 @@
 {
   "name": "@dimerapp/dfile",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Dimer file to convert it to markdown and check for linting errors",
   "main": "src/File.js",
   "files": [
@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@dimerapp/markdown": "^3.1.1",
+    "@dimerapp/markdown": "^3.1.2",
     "@dimerapp/utils": "^2.0.1",
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
