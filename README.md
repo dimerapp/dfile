@@ -60,6 +60,13 @@ const file = new Dfile(filePath, docsDir)
 console.log(file.baseName) // getting-started/intro.md
 ```
 
+## Extend Markdown library
+The [@dimerapp/markdown](https://github.com/dimerapp/markdown) library exposes an option to add macros. This library also exposes the library as `Markdown` property.
+
+```js
+Dfile.Markdown.addMacro('button', callback)
+```
+
 ## API
 The following properties/methods are available on the file instance.
 

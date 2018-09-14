@@ -31,6 +31,15 @@ class File {
   }
 
   /**
+   * Returns the instance of Markdown lib
+   *
+   * @attribute Markdown
+   */
+  static get Markdown () {
+    return Markdown
+  }
+
+  /**
    * Returns the base name for the file, only when `basepath`
    * exists
    *
